@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Game {
+    List<Player> players
+    Board board
+    Dice dice
+    int turn
+    GameState state {NOT_STARTED, IN_PROGRESS, COMPLETED}
+    void start()
+    Position movePiece(Piece piece, int value)
+}
+
+Game o-- Dice
+Game o-- Board
+Game -- Player
+
+
+class Board {
+    int cellCount
+    List<CellConnects> snakes
+    List<CellConnects> ladders
+
+    int getNewPosition(Piece piece, int turn)
+    int isWinner(Piece piece)
+}
+
+class CellConnects {
+    int startPos;
+    int endPos;
+}
+
+Board -> CellConnects
+
+class Dice {
+    int roll()
+}
+class Player{
+    Piece piece
+
+    void makeMove(Dice dice)
+    void endGame()
+}
+
+Player -> Piece
+class Piece {
+    PieceColor pieceColor
+    Integer position
+
+    void movePiece(Integer position)
+    int getPosition()
+
+}
+Piece *-- PieceColor
+
+enum PieceColor {
+    RED, BLUE, GREEN, YELLOW;
+}
+
+
+@enduml

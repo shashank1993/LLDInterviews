@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+: Multiple players start playing;
+: Each player pick one colour and start from initial position;
+: Chance by change everyone roll dice;
+if(dice_count equals 6)
+    : roll dice again;
+endif
+    : move piece by number;
+
+if(new_position has snake or ladder)
+    : move piece to new location;
+else
+endif
+: Anyone each end of the board become winner;
+stop
+
+@enduml
