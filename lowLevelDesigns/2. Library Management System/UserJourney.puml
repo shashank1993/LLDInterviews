@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:User check the catalogue and select a book;
+:Ask to borrow an available book;
+:Ask to wishlist a book;
+:Cap on max book user can issue
+:Librarian assign that book to Borrow and update availability;
+:User get reservation of book and card updated with return date;
+:User return book or extend the borrowing;
+if(bookExtending)
+    : Check not in wishlist;
+    : Reservation update for book;
+else
+    : User return book and notify wishlist;
+endif
+:Admin add new books to library;
+stop
+
+@enduml

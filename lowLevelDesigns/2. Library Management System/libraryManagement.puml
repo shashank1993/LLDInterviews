@@ -1,0 +1,78 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Book {
+    Long id
+    String name
+}
+
+class BookItem extends Book {
+    Long bookItemId
+    BookItemStatus status
+}
+enum BookItemStatus {
+    AVAILABLE, BORROWED, MAINTENANCE;
+}
+BookItem *-- BookItemStatus
+
+class Catalogue {
+    List<Book> books
+    Book searchByName(String name);
+}
+
+Catalogue -- Book
+
+class BookInventory {
+    Map<Book, List<BookItem>> books
+    List<BookItem> getAvailableBooks(Book book)
+    void removeBookFromInventory(BookItem bookItem)
+    void addBookToInventory(BookItem bookItem)
+}
+
+BookInventory <-- Book
+BookInventory <-- BookItem
+
+class Person {
+    Long id;
+}
+class Librarian extends Person {
+    Booking reserveBook(User user, Book book)
+    void returnBook(User user, BookItem bookItem)
+}
+
+class Notification {
+    void sendReminderToReturnBook(User user, BookItem bookItem)
+}
+
+class Booking {
+    BookItem bookedItem
+    Date bookingDate
+    Date returnDate
+    User member
+}
+
+class Library {
+    Librarian librarian
+    List<User> members
+    BookInventory bookInventory
+}
+
+Library *-- Librarian
+Library -- User
+Library o-- BookInventory
+
+Librarian -- User
+
+class User extends Person {
+    List<Booking> borrowedBooks;
+    'Book from today'
+    BookItem getBookFromLibrary(String name)
+    List<BookItem> getListOfBorrowedBooks()
+    void addBookReservation(Booking booking)
+    void returnBook(BookItem bookItem)
+}
+
+User -- Booking
+User -- BookingItem
+
+@enduml

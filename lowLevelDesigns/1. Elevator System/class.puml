@@ -1,0 +1,110 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Panel {
+    void selectKey(Key key)
+    Map<Key, Command> commandMap;
+}
+
+class FloorPanel extends Panel {
+    Floor floor
+    Key upKey
+    Key downKey
+}
+
+class LiftPanel extends Panel{
+    List<Key> floorKeys
+    Key openGate
+    Key closeGate
+}
+
+class FloorDisplay {
+    String position
+    LiftDirection direction
+}
+
+class Floor {
+    int number
+    FloorPanel getFloorLiftPanel()
+}
+
+class Key {
+    Character symbol
+    boolean isSelected()
+    boolean onButtonPressed()
+}
+
+Floor *- FloorPanel
+Floor *- FloorDisplay
+Panel *- Key
+
+abstract class Command {
+}
+
+class StopLiftAtFloorCommand extends Command {
+    Floor floor
+    LiftDirection direction
+    LiftManager liftManager
+    Lift lift
+}
+
+class GetLiftAtFloorCommand extends Command {
+    Floor floor
+    LiftDirection direction
+    LiftManager liftManager
+}
+
+class LiftManager {
+    List<Lift> lifts
+    void processCommand(Command command)
+}
+
+LiftManager o-- Lift
+LiftManager <--> Command
+
+class Lift {
+    int capacity
+    List<Key> keys
+    LiftPanel panel
+    LiftState state
+    LiftDirection direction
+    List<Floor> stops
+    LiftDoor door
+    Floor position
+
+    void start() 'If current floor is stop, then stop'
+    void addStopWithDirection(Floor floor, LiftDirection direction)
+    void openGate()
+    void closeGate()
+    LiftDirection getLiftDirection()
+    Floor getCurrentPosition()
+}
+
+Lift *-- LiftPanel
+
+class LiftDoor {
+    enum State {OPEN, CLOSED}
+}
+
+Lift *-- LiftDoor
+Lift *-- LiftState
+Lift *-- LiftDirection
+
+enum LiftState {
+    MOVING, STOPPED, ERROR, UNDER_REPAIR
+}
+enum LiftDirection {
+    UP, DOWN, STOPPED
+ }
+
+
+class Passenger {
+    Floor current_floor;
+    reachFloor(int number)
+}
+
+Passenger - Floor
+Passenger - LiftPanel
+
+
+@enduml

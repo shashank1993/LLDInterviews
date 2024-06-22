@@ -1,0 +1,25 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+:Press Up/Down Key from Panel At Floor I;
+:Display show current lift positions;
+if(any lift is ideal)
+    :Move ideal lift to Floor I;
+else
+    :Decide which lift can stop at floor and add it to lift execution along with direction;
+endif
+:Lift stopped at floor and door opened;
+:Passenger onboard the lift;
+:Passenger select floor to goto;
+:Lift show floor number;
+:Lift add stopage in order;
+:User deboard the lift;
+
+
+
+
+
+stop
+
+@enduml

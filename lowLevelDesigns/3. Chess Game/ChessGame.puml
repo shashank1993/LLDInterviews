@@ -1,0 +1,160 @@
+@startuml
+
+
+/'
+  undo operation
+
+  Game [Id, Board, Player, Pieces, Turn, RemovePiece, GameState-Success]
+
+  Game start() // initial positioning or piece
+  PlayerA Turn // PlayerA ownership piece
+    move Piece source -> dest
+       (Piece, desCell) -> operation will happen // Rule
+
+
+
+  - make movement
+'/
+
+class Rule {
+  Piece appliedOn
+  List<Condition> Conditions
+
+  List<Cell> possiblePositions(Source source)
+}
+
+class Game {
+  BoardManager BoardManager
+  List<Move> moves
+  Player playerA
+  Player playerB
+  List<MoveValidationStrategy> moveStrategy
+  List<MoveExecutionStrategy> moveExecutionStrategy
+  Turn turn
+  GameState {COMPLETED, PLAYING, STARTED}
+
+
+  Game(PlayerA, PlayerB, Board board)
+  boolean commitMove(Player player, Move move)
+  /'
+    update turn
+  '/
+  getTurn(): Turn
+}
+
+class BoardManager {
+  Board board
+  void makeInitialBoardState()
+
+  boolean makeMove(Move move)
+}
+
+Game *-- BoardManager
+Game *-- MoveValidationStrategy
+Game *-- MoveExecutionStrategy
+/'
+  Should not be any piece on its way -  Knight
+'/
+interface MoveValidationStrategy{
+  boolean validateMove(Move move)
+}
+
+class ProxyMoveValidationStrategy extends MoveValidationStrategy {
+ BishopMoveStrategy bishopMoveStrategy
+  boolean validateMove(Move move)
+}
+
+class BishopMoveValidationStrategy extends MoveStrategy {
+}
+
+
+interface MoveExecutionStrategy {
+
+}
+
+Game -> Board
+
+class Move {
+  Cell origin
+  Cell destination
+  Piece piece
+  Player player
+}
+
+class Player {
+  PlayerType PlayerType
+  String id
+  String name
+  Game game
+  State PlayerState {NOT_STARTED, PLAYING}
+
+  makeMove()
+}
+
+Player -- Game
+
+class Board {
+  List<Cell> cell;
+  ' Cell[][] cells;
+
+  Piece getPiece(int hor_index, int ver_index)
+}
+
+class Cell {
+  int horizontal_index;
+  int vertical_index;
+
+  '
+  Optional<Piece> getPiece();
+  boolean isEmpty();
+
+}
+
+Board *-- Cell
+
+abstract class Piece {
+  Shape Shape
+  PieceType type
+
+  move(Cell)
+  currentCell(): Cell
+
+}
+Piece *-- PieceType
+
+enum PieceType {
+  WHITE, BLACK
+}
+
+class King extends Piece {
+  List<Rules> rules
+}
+
+class Queen extends Piece {
+}
+
+class Bishop extends Piece {
+}
+
+/'
+
+Design Chess
+
+Board: Board is the one entity represents an actual board on which which you play this game. You can consider an 8*8 grid.
+Cell: A board consists of a grid of cells.
+Piece: There are various types of pieces:
+
+Pieces and their moves:
+King: Key entity in chess. If your king is killed then you lose. Its also called checkmate.
+Queen: It can move any number of steps in a single move and in any direction.
+Rook: It only moves in horizontal and vertical direction but can move any number of steps in single move.
+Bishop: It only moves in diagonal direction but can move any number of steps in single move.
+Knight: It makes L shaped moves. Check online for more details about it.
+Pawn: It can move 1 step forward vertically. If it is its first turn, then it can also choose to make 2 steps in single move.
+
+
+
+
+'/
+
+@enduml
