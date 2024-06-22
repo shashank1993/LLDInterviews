@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+: Group of participants are selected;
+: Schedule future meeting for these participants - Date and interval;
+: Book meeting in there calendar;
+: While reserving determine meeting time based on availability;
+: While reserving also reserve location like meeting room;
+: Cancel meeting - free up all calendars and meeting rooms;
+: Send notifications to invited participants;
+: While meeting is running, organizer can add new participants;
+: Meeting ends;
+stop
+
+
+
+@enduml

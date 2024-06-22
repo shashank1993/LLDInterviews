@@ -1,0 +1,85 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class User {
+    Long userId
+    String name
+    String emailId
+    AvailabilyCalendar userCalendar
+
+}
+class Participant extends User{
+   void joinMeeting(Meeting meeting)
+}
+User o-- AvailabilityCalendar
+MeetingRoom o-- AvailabilityCalendar
+
+class MeetingRoom {
+    int capacity
+    AvailabilyCalendar calendar
+}
+
+class Organiser extends User {
+    void addParticipant(Meeting meeting, User user)
+    void joinMeeting(Meeting meeting)
+    void cancelMeeting(Meeting meeting)
+    Meeting scheduleMeeting(List<Participant> participants,
+    Date meetingDate, Long intervalInMins, Participant organizer)
+}
+
+class Meeting {
+    String meetingId
+    List<Participant> participants
+    MeetingRoom meetingRoom
+    TimeInterval timeInterval
+}
+
+Meeting -- AvailabilityCalendar
+
+class Calendar {
+}
+
+class AvailabilityCalendar extends Calendar {
+    List<CalendarDay> calendarDays
+    CalendarDay getCalendar(Date date)
+}
+
+class CalendarDay {
+    Date date;
+    List<Meeting> meetings;
+}
+AvailabilityCalendar *-- CalendarDay
+
+class MeetingManager {
+    NotiicationService notificationService
+
+    void scheduleMeeting(Meeting meeting)
+    void cancelMeeting(Meeting meeting)
+    void addParticipant(Meeting meeting, User user)
+}
+
+MeetingManager --> NotificationService
+
+class NotificationService {
+    void sendNotification(User userId, Meeting meeting)
+}
+
+class MeetingRoomManager {
+   List<MeetingRoom> getAvailableRooms(Date date, TimeInterval interval)
+}
+
+Organiser --> MeetingRoomManager
+Organiser --> AvailabilityService
+Organiser --> MeetingManager
+
+class AvailabilityService {
+    + List<TimeInterval> getCommonAvailableSlots(List<Participant> participants,Date meetingDate, Long intervalInMins)
+    /' List<TimeInterval> getCommonAvailableSlots(List<List<TimeInterval>> availableSlots); '/
+}
+
+class TimeInterval {
+    Date startTime;
+    Date endTime;
+}
+
+@enduml
