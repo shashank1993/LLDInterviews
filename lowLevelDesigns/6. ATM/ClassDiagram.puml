@@ -1,0 +1,115 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ATM {
+    AtmScreen screen
+    AtmState state
+    AtmSession session
+    AtmKeypad atmKeypad
+    CashStore cashStore
+
+    AtmScreenReader getAtmScreenReader()
+    void insertCard(Card card)
+    /'void insertPin(int pin) '/
+    void selectOption(ATMOption option)
+    void keyPressed(AtmKey key)
+
+}
+
+abstract class AtmState {
+    List<ATMOption> nextOptions
+    void insertCard(Card card)
+    void selectOption(ATMOption option)
+    void keyPressed(AtmKey key)
+}
+
+ATM *-- AtmState
+AtmState *-- ATMOption
+
+class CashWithdrawalState extends AtmState {
+    CashStore cashStore
+}
+class BalanceEnquiryState extends AtmState
+
+CashWithdrawalState *-- CashStore
+class CashStore {
+
+    CashDispenser cashDispensor
+    Map<Amount, AtomicInteger> currencyStore;
+
+    boolean isAmountAvailable(Double amount)
+    void disperseCash(Double amount)
+
+}
+
+interface CashDispenser {
+    void dispenseMoney(Map<Amount, AtomicInteger> currencyMap)
+}
+CashStore *-- CashDispenser
+class AtmKeypad {
+    List<AtmKey> atmKeys
+}
+class AtmKey {
+    int id;
+    String label;
+}
+
+AtmKeypad *-- AtmKey
+ATM *-- AtmKeypad
+
+class BankService {
+    List<Account> accounts
+    Account getAccountDetails(Card card, Pin pin)
+    boolean holdBalance(Account account, Decimal amount, String sessionId)
+    boolean debitBalance(Account account, Decimal amount, String sessionId)
+}
+
+abstract Account {
+}
+
+class AtmSession {
+    String custmerId
+    String sessionId
+    String cardNumber
+    boolean isVerified()
+
+}
+ATM *-- AtmSession
+abstract class Card {
+    String cardNumber
+    String bin
+    int pin
+}
+
+Card -- BankService
+User o-- Card
+BankService *-- Account
+
+class DebitCard extends Card {
+}
+
+class CreditCard extends Card {
+}
+
+
+ATM *-- AtmScreen
+interface AtmScreenReader {
+    String showMessage()
+}
+
+class AtmScreen implements AtmScreenReader {
+    void setMessage(String message)
+    List<ATMOption> showOptions()
+}
+
+enum ATMOption{
+    BAL_ENQUIRY, CASH_WITHDRAWAL, ADD_MONEY, RESET_PIN;
+}
+
+class User {
+   Card card
+   boolean getWithdrawalFromAtm(Atm atm, Card card, Amount amount)
+}
+
+User -- ATM
+@enduml

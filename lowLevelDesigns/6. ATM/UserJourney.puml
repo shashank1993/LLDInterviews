@@ -1,0 +1,24 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+: User went to ATM and
+: ATM show home screen and User insert card;
+: ATM ask for pin, User provided PIN;
+: ATM validate the details;
+if(not verified)
+    stop;
+endif
+: ATM provide available options - Cash withdrawal, Bal Enquiry;
+: User selected Cash withdrawal;
+: ATM ask to fill the amount
+: User fill and confirm
+/'if(money not available_in_atm)
+    stop;
+endif'/
+: ATM Screen show processing and dispenser return money;
+: User collect money;
+: ATM mark transaction complete and return to home screen;
+stop
+
+@enduml
