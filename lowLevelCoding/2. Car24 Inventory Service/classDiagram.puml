@@ -1,0 +1,43 @@
+@startuml
+
+abstract class Vehicle {
+    String regNumber
+    int capacity
+}
+
+class Car extends Vehicle {
+    CarCategory category {HATCHBACK, SEDAN}
+    String colour
+    String registeredYear
+}
+
+class Bike extends Vehicle {
+}
+
+
+class UserAccount {
+    String userId
+    String email
+    String password
+}
+
+
+class VehicleInventory {
+    List<Date, List<Vehicle>> availableVehicles;
+
+    List<Vehicle> getAvailableInventory(Date startDate,
+    Date endDate, List<FilterCondition> filtersAttributes)
+
+    boolean addInventory(DateRate range, Vehicle)
+    boolean removeInventory(DateRate range, Vehicle)
+}
+
+class FilterCondition {
+    TYPE : "EQUAL",
+    String name
+    String value
+}
+
+class Customer extends UserAccount {
+
+}

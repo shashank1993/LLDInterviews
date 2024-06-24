@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+: Customer reached Parking entry gate, put into entry queue;
+: Generate receipt;
+: Unpark from parking slot;
+: Reach exit gate and put in exit queue see the total fair;
+: Parking allow exit;
+: Pay the fair;
+
+stop
+
+@enduml

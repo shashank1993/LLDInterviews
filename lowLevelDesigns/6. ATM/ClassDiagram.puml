@@ -91,6 +91,11 @@ class DebitCard extends Card {
 class CreditCard extends Card {
 }
 
+class VisaCard extends Card {
+}
+
+class MasterCard extends Card {
+}
 
 ATM *-- AtmScreen
 interface AtmScreenReader {

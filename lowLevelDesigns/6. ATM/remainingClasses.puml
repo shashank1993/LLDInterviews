@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Transaction {
+
+}
+
+class DepositTransaction extends Transaction {
+}
+
+class WithdrawalTransaction extends Transaction {
+}
+
+class InquiryTransaction extends Transaction {
+}
+
+class AccountTransferTransaction extends Transaction {
+}
+
+class AtmWorkflowStep {
+}
+
+class DepositAmount extends AtmWorkflowStep
+
+class WithdrawalAmount extends AtmWorkflowStep
+
+class ShowOptions extends AtmWorkflowStep
+
+class AtmWorkflowManager {
+    AtmWorkflowStep nextStep
+    AtmWorkflowStep prevStep
+    SessionContext sessionContext
+}
+
+AtmWorkflowManager *-- AtmWorkflowStep
+AtmWorkflowManager *-- SessionContext
+
+@enduml

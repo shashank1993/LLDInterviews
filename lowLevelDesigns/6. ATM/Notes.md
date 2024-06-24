@@ -15,3 +15,8 @@ Q How will state class use CashDispensor and display
  - User will have card
  - Missed generic states like SelectOperationState
  - Missed Transaction class
+
+
+Notes:
+- We could also have AtmWorkFlowSteps that will decide which step to go to next, this will help us to
+    not pollute states for workflow changes like we want to show options then homepage post transaction

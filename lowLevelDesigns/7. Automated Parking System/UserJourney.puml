@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+: User drop his car in lift;
+: Lift assess the car category:
+: User drop the vehicle for parking;
+: show available slots count and parking space;
+: generate the token and park the vehicle at slot;
+
+stop
+
+@enduml

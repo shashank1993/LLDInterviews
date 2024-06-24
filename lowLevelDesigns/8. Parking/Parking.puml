@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ParkingEntranceService {
+    void park(Vehicle vehicle)
+    Ticket generateTicket()
+}
+
+class SlotAssignmentStrategy {
+
+}
+
+ParkingEntranceService -> SlotAssignmentStrategy
+
+class PricingStrategy {
+}
+
+class ParkingTicket {
+}
+
+ParkingEntranceService -> ParkingTicket
+
+class ParkingLot {
+    location: String
+    capacityByType
+    slots
+}
+
+SlotAssignmentStrategy -> ParkingLot
+
+class ParkingSlot {
+    SlotType type
+    ParkingSlotStatus status {OCCUPIED, FREE}
+    Vehicle vehicle
+}
+
+ParkingTicket -> ParkingSlot
+ParkingLot -> ParkingSlot
+
+
+class Vehicle {
+}
+
+ParkingTicket -> Vehicle
+ParkingSlot -> Vehicle
+
+abstract class PaymentService {
+    process()
+    postProcess()
+    PaymentDetails paymentDetails
+}
+
+class CashPayment extends PaymentService {
+}
+
+class OnlinePayment extends PaymentService {
+}
+
+class UpiPayment extends PaymentService {
+}
+
+@enduml

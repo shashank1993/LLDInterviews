@@ -1,0 +1,90 @@
+@startuml
+class Hotel {
+    String hotelId
+    Location Location
+    String name
+    List<Amenities> Amenities
+    List<Reviews> Reviews
+    List<Rooms> rooms
+}
+
+Hotel *-- Room
+
+class HotelInventory {
+    Map<Date, List<Room>> availableRoom;
+
+    produceRoomInventory(Date date, Room room)
+    consumeRoomInvetory(Date date, Room room)
+
+}
+
+HotelInventory o-- RoomItem3
+
+class Room {
+
+}
+
+class RoomItem extends Room {
+    int roomNumber;
+
+}
+
+
+class Booking {
+    String bookingId
+    Date checkinDate;
+    Date checkoutDate;
+    RoomItem roomItem;
+}
+
+Booking --> RoomItem
+
+class Reservation {
+    String reservationiId
+    ReservationStatus status
+    List<Booking> bookings
+    Date bookingDate
+    User userId
+    Payment payment
+}
+
+Reservation *-- Payment
+Reservation -- User
+
+Class Payment {
+    status
+    List<PaymentPart> PaymentPart
+
+}
+
+abstract class PaymentPart {
+    String transactionId
+}
+Payment *-- PaymentPart
+
+class NetBanking extends PaymentPart {
+    String bankName
+}
+class UPIPayment extends PaymentPart {
+    String vpa
+}
+
+
+abstract class User {
+    String userId
+    String name
+    String number
+    String loginId
+    String hashedPassword
+}
+
+class Admin extends User
+class Customer extends User {
+    List<Reservation> reservations
+}
+
+Reservation o-- Booking
+
+
+
+@enduml

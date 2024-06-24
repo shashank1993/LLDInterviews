@@ -1,0 +1,39 @@
+@startuml
+abstract class Alarm {
+    public void execute()
+    public Schedule getSchedule()
+
+}
+
+abstract class Schedule {
+    ' REPEATED, ONCE
+    ScheduleType scheduleType
+    Long timeLagInBw
+}
+
+interface ScheduleStrategy {
+    Long getNextExecutionTime(Schedule schedule)
+}
+
+class BasicScheduleStrategy implements ScheduleStrategy {
+    Long getNextExecutionTime(Schedule schedule)
+}
+
+class LogPrinterAlarm extends Alarm {
+    String message
+    Schedule schedule
+
+    ' Print message in logs
+    public void execute()
+}
+
+interface ScheduleExecutor {
+
+    void executeAlarm(Alarm alarm)
+}
+
+class ScheduleProcessor {
+    ' If scheduler Factory Needed
+    void scheduleAndExecute(Long executionTime, Alarm alarm);
+}
+@enduml
